@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urvashi Saana</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#060608;--black2:#0a0a0e;--black3:#0f0f14;
+  --surface:#12121a;--surface2:#181820;
+  --red:#c0000a;--red-bright:#e8000e;--red-deep:#7a0005;
+  --red-dim:rgba(192,0,10,0.08);--red-glow:rgba(192,0,10,0.25);
+  --white:rgba(255,255,255,0.92);--white-dim:rgba(255,255,255,0.45);
+  --white-ghost:rgba(255,255,255,0.12);
+  --border-red:rgba(192,0,10,0.3);--border-white:rgba(255,255,255,0.08);
+  --font-impact:'Bebas Neue',sans-serif;
+  --font-serif:'Cormorant Garamond',serif;
+  --font-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:10px;height:10px;background:var(--red-bright);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.12s}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(192,0,10,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,border-color 0.3s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(6,6,8,0.97),transparent)}
+.nav-logo{font-family:var(--font-impact);font-size:1.4rem;letter-spacing:0.15em;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--red-bright)}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{color:var(--white-dim);text-decoration:none;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;transition:color 0.3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--red-bright);transition:width 0.3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+.admin-nav-btn{background:var(--red);color:var(--white)!important;padding:0.4rem 1rem;font-size:0.65rem!important;letter-spacing:0.18em!important}
+.admin-nav-btn::after{display:none!important}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 4rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 100% 50%,rgba(192,0,10,0.12),transparent 60%),radial-gradient(ellipse 40% 60% at 0% 100%,rgba(192,0,10,0.06),transparent 50%),var(--black)}
+.hero-slash{position:absolute;right:38%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--red) 25%,var(--red-bright) 55%,var(--red) 75%,transparent);opacity:0.6}
+.hero-deco{position:absolute;right:-2rem;top:50%;transform:translateY(-50%);font-family:var(--font-impact);font-size:clamp(10rem,20vw,20rem);color:transparent;-webkit-text-stroke:1px rgba(192,0,10,0.1);line-height:0.85;user-select:none;pointer-events:none;white-space:nowrap}
+.hero-content{position:relative;z-index:2;max-width:680px}
+.hero-eyebrow{font-size:0.68rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--red-bright);margin-bottom:1.8rem;display:flex;align-items:center;gap:1rem;opacity:0;animation:fadeUp 1s 0.2s forwards}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--red-bright)}
+.hero-name{font-family:var(--font-impact);font-size:clamp(4.5rem,12vw,12rem);letter-spacing:0.04em;line-height:0.85;color:var(--white);opacity:0;animation:fadeUp 1s 0.4s forwards}
+.hero-name .red{color:var(--red-bright)}
+.hero-italic{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(2rem,5vw,5rem);color:var(--white-dim);line-height:1;display:block;margin-bottom:2rem;opacity:0;animation:fadeUp 1s 0.55s forwards}
+.hero-tagline{font-family:var(--font-serif);font-size:1.2rem;font-weight:300;font-style:italic;color:var(--white-dim);margin-bottom:2.5rem;max-width:400px;line-height:1.8;opacity:0;animation:fadeUp 1s 0.7s forwards}
+.hero-tagline strong{color:var(--white);font-style:normal;font-weight:400}
+.hero-ctas{display:flex;gap:1rem;opacity:0;animation:fadeUp 1s 0.9s forwards}
+.btn-red{display:inline-block;padding:0.8rem 2.2rem;background:var(--red);color:var(--white);font-family:var(--font-body);font-size:0.7rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background 0.3s,transform 0.2s}
+.btn-red:hover{background:var(--red-bright);transform:translateY(-1px)}
+.btn-outline{display:inline-block;padding:0.8rem 2.2rem;border:1px solid var(--border-white);color:var(--white-dim);font-family:var(--font-body);font-size:0.7rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:border-color 0.3s,color 0.3s;cursor:pointer;background:none}
+.btn-outline:hover{border-color:var(--red-bright);color:var(--white)}
+
+/* MARQUEE */
+.marquee-bar{background:var(--red);padding:0.7rem 0;overflow:hidden;white-space:nowrap}
+.marquee-track{display:inline-block;animation:marquee 20s linear infinite}
+.marquee-track span{font-family:var(--font-impact);font-size:0.82rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--white);margin:0 2rem}
+.marquee-track .dot{color:rgba(255,255,255,0.4)}
+
+/* SECTIONS */
+section{padding:7rem 4rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.sec-tag{font-size:0.66rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.8rem}
+.sec-tag::before{content:'';width:22px;height:1px;background:var(--red-bright)}
+.sec-heading{font-family:var(--font-impact);font-size:clamp(3rem,7vw,7rem);letter-spacing:0.03em;line-height:0.88;color:var(--white);margin-bottom:0.3rem}
+.sec-heading .red{color:var(--red-bright)}
+.sec-heading .outline{-webkit-text-stroke:1px rgba(255,255,255,0.3);color:transparent}
+
+/* ABOUT */
+.about-section{background:var(--black2)}
+.about-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:5rem;align-items:start;margin-top:4rem}
+.about-text{font-family:var(--font-serif);font-size:1.2rem;font-weight:300;line-height:1.9;color:var(--white-dim)}
+.about-text strong{color:var(--white);font-weight:400}
+.about-text .hl{color:var(--red-bright);font-style:italic}
+.about-divider{width:50px;height:2px;background:linear-gradient(to right,var(--red-bright),transparent);margin:1.8rem 0}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-red);border:1px solid var(--border-red);margin-top:2rem}
+.stat-item{background:var(--black2);padding:1.5rem;position:relative}
+.stat-item::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);opacity:0;transition:opacity 0.3s}
+.stat-item:hover::after{opacity:1}
+.stat-num{font-family:var(--font-impact);font-size:3rem;color:var(--red-bright);line-height:1;margin-bottom:0.2rem}
+.stat-label{font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--white-dim)}
+.detail-list{display:flex;flex-direction:column}
+.detail-row{display:flex;flex-direction:column;padding:1rem 0;border-bottom:1px solid var(--border-white)}
+.detail-row:last-child{border-bottom:none}
+.detail-key{font-size:0.63rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.2rem}
+.detail-val{font-family:var(--font-serif);font-size:0.95rem;font-weight:300;color:var(--white-dim)}
+.detail-val a{color:var(--white);text-decoration:none;border-bottom:1px solid var(--border-red)}
+.detail-val a:hover{color:var(--red-bright)}
+
+/* MUSIC PLAYER */
+.music-section{background:var(--black)}
+.now-playing{background:var(--surface);border:1px solid var(--border-red);padding:1.8rem 2rem;margin-bottom:1.5rem;display:grid;grid-template-columns:70px 1fr auto;gap:1.8rem;align-items:center}
+.np-art{width:70px;height:70px;background:var(--black3);border:1px solid var(--border-red);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.np-art img{width:100%;height:100%;object-fit:cover}
+.np-art-letter{font-family:var(--font-impact);font-size:2.2rem;color:var(--red-deep)}
+.np-label{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.2rem}
+.np-title{font-family:var(--font-impact);font-size:1.8rem;letter-spacing:0.04em;color:var(--white);line-height:1;margin-bottom:0.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-sub{font-family:var(--font-serif);font-style:italic;font-size:0.85rem;color:var(--white-dim)}
+.np-controls{display:flex;flex-direction:column;gap:0.8rem;align-items:flex-end;min-width:200px}
+.controls-row{display:flex;align-items:center;gap:0.8rem}
+.ctrl-btn{background:none;border:none;cursor:pointer;color:var(--white-dim);font-size:1rem;transition:color 0.2s;padding:0;line-height:1}
+.ctrl-btn:hover{color:var(--white)}
+.play-btn{width:42px;height:42px;border:1px solid var(--red)!important;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--red-bright)!important;font-size:1.1rem;transition:background 0.3s!important}
+.play-btn:hover{background:var(--red)!important;color:var(--white)!important}
+.progress-wrap{width:100%;display:flex;flex-direction:column;gap:0.3rem}
+.prog-container{width:100%;height:3px;background:var(--surface2);cursor:pointer;position:relative;border-radius:2px}
+.prog-fill{height:100%;background:var(--red-bright);border-radius:2px;width:0%}
+.prog-thumb{position:absolute;top:50%;width:9px;height:9px;background:var(--red-bright);border-radius:50%;transform:translate(50%,-50%);left:0%}
+.time-row{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--white-dim)}
+.visualizer{display:flex;gap:2px;align-items:flex-end;height:14px}
+.viz-bar{width:3px;background:var(--red-bright);border-radius:1px;height:3px}
+.track-list{display:flex;flex-direction:column;gap:1px;margin-top:0}
+.track-item{display:grid;grid-template-columns:44px auto 1fr auto;align-items:center;gap:1.2rem;padding:1rem 1.2rem;background:var(--surface);border:1px solid var(--border-white);cursor:pointer;transition:background 0.3s,border-color 0.3s,padding-left 0.3s;position:relative}
+.track-item:hover,.track-item.active{background:var(--red-dim);border-color:var(--border-red)}
+.track-item:hover{padding-left:1.8rem}
+.track-art{width:40px;height:40px;background:var(--black3);border:1px solid var(--border-red);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-family:var(--font-impact);font-size:1.2rem;color:var(--red-deep)}
+.track-art img{width:100%;height:100%;object-fit:cover}
+.track-play-icon{font-size:0.75rem;color:var(--red-bright);display:none;position:absolute;left:1.2rem}
+.track-item.active .track-play-icon,.track-item:hover .track-play-icon{display:block}
+.track-year{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.1rem}
+.track-name{font-family:var(--font-impact);font-size:1.2rem;letter-spacing:0.04em;color:var(--white);line-height:1}
+.track-sub{font-family:var(--font-serif);font-style:italic;font-size:0.8rem;color:var(--white-dim)}
+.track-duration{font-size:0.72rem;color:var(--white-dim)}
+.track-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--red);width:0%}
+
+/* EMBED */
+.embed-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+.embed-card{background:var(--surface);border:1px solid var(--border-white);overflow:hidden;transition:border-color 0.3s}
+.embed-card:hover{border-color:var(--border-red)}
+.embed-label{font-size:0.63rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red-bright);padding:0.7rem 1rem;border-bottom:1px solid var(--border-white);background:var(--black3)}
+.embed-card iframe{display:block;width:100%;border:none}
+.embed-heading{font-family:var(--font-impact);font-size:1.6rem;letter-spacing:0.05em;color:var(--white);margin-top:4rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
+.embed-heading::before{content:'';flex:0 0 2px;height:20px;background:var(--red-bright)}
+
+/* UPDATES / POSTS */
+.updates-section{background:var(--black2)}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.post-card{background:var(--surface);border:1px solid var(--border-white);overflow:hidden;transition:border-color 0.3s,transform 0.3s;cursor:default}
+.post-card:hover{border-color:var(--border-red);transform:translateY(-3px)}
+.post-cover{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--black3)}
+.post-cover-placeholder{width:100%;aspect-ratio:16/9;background:var(--black3);display:flex;align-items:center;justify-content:center}
+.post-cover-glyph{font-family:var(--font-impact);font-size:4rem;color:var(--red-deep);opacity:0.4}
+.post-body{padding:1.2rem 1.4rem}
+.post-date{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.3rem}
+.post-title{font-family:var(--font-impact);font-size:1.3rem;letter-spacing:0.03em;color:var(--white);line-height:1.1;margin-bottom:0.5rem}
+.post-text{font-family:var(--font-serif);font-size:0.9rem;font-weight:300;color:var(--white-dim);line-height:1.7}
+.empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;border:1px dashed var(--border-red)}
+.empty-state-text{font-family:var(--font-serif);font-style:italic;font-size:1.1rem;color:var(--white-dim)}
+.empty-state-sub{font-size:0.75rem;color:var(--white-ghost);margin-top:0.5rem;letter-spacing:0.1em}
+
+/* INSTAGRAM */
+.instagram-section{background:var(--black)}
+.insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3rem;background:var(--border-white)}
+.insta-item{aspect-ratio:1;background:var(--surface);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
+.insta-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.8rem;padding:1.5rem;text-align:center}
+.insta-icon{font-size:1.8rem;color:var(--red-bright);opacity:0.4}
+.insta-text{font-family:var(--font-serif);font-style:italic;font-size:0.85rem;color:var(--white-dim)}
+.insta-overlay{position:absolute;inset:0;background:rgba(192,0,10,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;opacity:0;transition:opacity 0.3s}
+.insta-item:hover .insta-overlay{opacity:1}
+.insta-overlay-text{font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--white)}
+.insta-cta{margin-top:2.5rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;padding:2rem;background:var(--surface);border:1px solid var(--border-red)}
+.insta-cta-text{font-family:var(--font-serif);font-style:italic;font-size:1.1rem;color:var(--white-dim)}
+.insta-cta-text strong{color:var(--white);font-style:normal}
+.insta-follow-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8rem 1.8rem;background:var(--red);color:var(--white);font-family:var(--font-body);font-size:0.7rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:background 0.3s;white-space:nowrap}
+.insta-follow-btn:hover{background:var(--red-bright)}
+
+/* SERVICES */
+.commercials-section{background:var(--black2)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border-red);border-left:1px solid var(--border-red)}
+.svc{padding:2rem 1.8rem;border-right:1px solid var(--border-red);border-bottom:1px solid var(--border-red);position:relative;overflow:hidden;transition:background 0.4s}
+.svc:hover{background:var(--red-dim)}
+.svc::before{content:attr(data-num);position:absolute;top:-0.8rem;right:1rem;font-family:var(--font-impact);font-size:4.5rem;color:var(--red);opacity:0.07;line-height:1;user-select:none}
+.svc-icon{width:32px;height:32px;border:1px solid var(--border-red);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;color:var(--red-bright)}
+.svc-title{font-size:0.76rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--white);margin-bottom:0.7rem}
+.svc-desc{font-family:var(--font-serif);font-size:0.92rem;font-weight:300;color:var(--white-dim);line-height:1.75}
+.fiverr-banner{margin-top:2.5rem;background:var(--red);padding:3rem 3.5rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;position:relative;overflow:hidden}
+.fiverr-banner::after{content:'FIVERR';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);font-family:var(--font-impact);font-size:7rem;color:rgba(255,255,255,0.06);user-select:none;white-space:nowrap}
+.fiverr-text{font-family:var(--font-serif);font-size:1.4rem;font-weight:300;font-style:italic;color:rgba(255,255,255,0.9)}
+.fiverr-text strong{font-style:normal;font-weight:400;color:var(--white)}
+.btn-white{display:inline-block;padding:0.8rem 2.2rem;background:var(--white);color:var(--red);font-family:var(--font-body);font-size:0.7rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:background 0.3s,color 0.3s;white-space:nowrap;position:relative;z-index:1}
+.btn-white:hover{background:var(--black);color:var(--white)}
+
+/* CONTACT */
+.contact-section{background:var(--black)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:start}
+.contact-statement{font-family:var(--font-impact);font-size:clamp(2rem,4vw,3.5rem);letter-spacing:0.04em;line-height:1;color:var(--white);margin-bottom:1.8rem}
+.contact-statement .red{color:var(--red-bright)}
+.contact-statement .outline{-webkit-text-stroke:1px rgba(255,255,255,0.25);color:transparent;display:block}
+.contact-body{font-family:var(--font-serif);font-size:1rem;font-weight:300;font-style:italic;color:var(--white-dim);line-height:1.9;margin-bottom:2.5rem}
+.socials{display:flex;flex-direction:column}
+.soc-link{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid var(--border-white);text-decoration:none;color:var(--white);transition:padding-left 0.3s;position:relative;overflow:hidden}
+.soc-link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red-bright);transform:scaleY(0);transition:transform 0.3s}
+.soc-link:hover{padding-left:1rem}
+.soc-link:hover::before{transform:scaleY(1)}
+.soc-name{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--white-dim);transition:color 0.3s}
+.soc-link:hover .soc-name{color:var(--red-bright)}
+.soc-handle{font-family:var(--font-serif);font-size:0.9rem;font-style:italic;color:var(--white-dim)}
+.soc-arrow{color:var(--red-bright);transition:transform 0.3s}
+.soc-link:hover .soc-arrow{transform:translate(3px,-3px)}
+.form-note{font-size:0.72rem;color:var(--white-dim);margin-bottom:1.2rem;font-style:italic;font-family:var(--font-serif);padding:0.7rem 1rem;border-left:2px solid var(--red);background:var(--red-dim)}
+.form-note a{color:var(--red-bright);text-decoration:none}
+.form-wrap{display:flex;flex-direction:column;gap:1rem}
+.f-label{display:block;font-size:0.63rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.35rem}
+.f-input,.f-textarea,.f-select{width:100%;background:var(--surface);border:1px solid var(--border-white);border-bottom:1px solid var(--border-red);color:var(--white);font-family:var(--font-serif);font-size:1rem;font-weight:300;padding:0.85rem 1rem;outline:none;transition:border-color 0.3s,background 0.3s}
+.f-input:focus,.f-textarea:focus,.f-select:focus{border-color:var(--red-bright);background:var(--surface2)}
+.f-input::placeholder,.f-textarea::placeholder{color:var(--white-ghost)}
+.f-textarea{min-height:110px;resize:none}
+.f-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23e8000e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;cursor:pointer}
+.f-select option{background:var(--surface2)}
+.submit-btn{width:100%;padding:0.95rem;background:var(--red);color:var(--white);border:none;font-family:var(--font-body);font-size:0.75rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;transition:background 0.3s}
+.submit-btn:hover{background:var(--red-bright)}
+.submit-btn.success{background:#1a5c1a}
+.form-status{display:none;padding:0.9rem 1rem;font-family:var(--font-serif);font-style:italic;font-size:0.9rem;border:1px solid;margin-top:0.4rem}
+.form-status.success{color:#5dbe5d;border-color:rgba(93,190,93,0.3);background:rgba(93,190,93,0.05);display:block}
+.form-status.error{color:var(--red-bright);border-color:var(--border-red);background:var(--red-dim);display:block}
+
+footer{border-top:1px solid var(--border-red);padding:2.2rem 4rem;display:flex;align-items:center;justify-content:space-between;background:var(--black)}
+.footer-brand{font-family:var(--font-impact);font-size:1rem;letter-spacing:0.15em;color:var(--white-dim)}
+.footer-brand span{color:var(--red-bright)}
+.footer-copy{font-size:0.66rem;color:var(--white-ghost)}
+.footer-tagline{font-family:var(--font-serif);font-style:italic;font-size:0.82rem;color:var(--red-bright);opacity:0.7}
+
+/* ============================
+   ADMIN PANEL
+   ============================ */
+.admin-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.96);display:none;overflow-y:auto}
+.admin-overlay.open{display:block}
+.admin-panel{max-width:900px;margin:0 auto;padding:3rem 2rem}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border-red)}
+.admin-title{font-family:var(--font-impact);font-size:2.5rem;letter-spacing:0.08em;color:var(--white)}
+.admin-title span{color:var(--red-bright)}
+.admin-close{background:none;border:1px solid var(--border-white);color:var(--white-dim);padding:0.5rem 1.2rem;font-family:var(--font-body);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:border-color 0.3s,color 0.3s}
+.admin-close:hover{border-color:var(--red-bright);color:var(--red-bright)}
+
+/* Login */
+.admin-login{max-width:400px;margin:4rem auto;text-align:center}
+.admin-login-title{font-family:var(--font-impact);font-size:2rem;letter-spacing:0.08em;color:var(--white);margin-bottom:0.5rem}
+.admin-login-sub{font-family:var(--font-serif);font-style:italic;font-size:0.95rem;color:var(--white-dim);margin-bottom:2rem}
+.admin-login-input{width:100%;background:var(--surface);border:1px solid var(--border-red);color:var(--white);font-family:var(--font-serif);font-size:1rem;padding:0.9rem 1rem;outline:none;text-align:center;letter-spacing:0.2em;margin-bottom:1rem}
+.admin-login-input:focus{border-color:var(--red-bright)}
+.admin-login-btn{width:100%;padding:0.9rem;background:var(--red);color:var(--white);border:none;font-family:var(--font-body);font-size:0.75rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;transition:background 0.3s}
+.admin-login-btn:hover{background:var(--red-bright)}
+.admin-login-err{color:var(--red-bright);font-size:0.8rem;margin-top:0.5rem;display:none}
+
+/* Tabs */
+.admin-tabs{display:flex;gap:0;margin-bottom:2.5rem;border-bottom:1px solid var(--border-red)}
+.admin-tab{background:none;border:none;color:var(--white-dim);font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.8rem 1.5rem;cursor:pointer;transition:color 0.3s;position:relative;border-bottom:2px solid transparent;margin-bottom:-1px}
+.admin-tab:hover{color:var(--white)}
+.admin-tab.active{color:var(--red-bright);border-bottom-color:var(--red-bright)}
+
+/* Admin forms */
+.admin-form{display:flex;flex-direction:column;gap:1.2rem;margin-bottom:3rem;padding:2rem;background:var(--surface);border:1px solid var(--border-white)}
+.admin-form-title{font-family:var(--font-impact);font-size:1.4rem;letter-spacing:0.06em;color:var(--white);margin-bottom:0.5rem}
+.a-label{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.35rem;display:block}
+.a-input,.a-textarea{width:100%;background:var(--black2);border:1px solid var(--border-white);border-bottom:1px solid var(--border-red);color:var(--white);font-family:var(--font-serif);font-size:0.95rem;padding:0.8rem 1rem;outline:none;transition:border-color 0.3s}
+.a-input:focus,.a-textarea:focus{border-color:var(--red-bright)}
+.a-input::placeholder,.a-textarea::placeholder{color:var(--white-ghost)}
+.a-textarea{min-height:100px;resize:vertical}
+.a-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.a-btn{padding:0.8rem 1.8rem;background:var(--red);color:var(--white);border:none;font-family:var(--font-body);font-size:0.7rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.3s;align-self:flex-start}
+.a-btn:hover{background:var(--red-bright)}
+.a-btn.secondary{background:var(--surface2);border:1px solid var(--border-white)}
+.a-btn.secondary:hover{border-color:var(--border-red);background:var(--red-dim)}
+
+/* Upload area */
+.upload-area{border:2px dashed var(--border-red);padding:2rem;text-align:center;cursor:pointer;transition:background 0.3s;position:relative}
+.upload-area:hover,.upload-area.drag{background:var(--red-dim)}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:2rem;color:var(--red-bright);opacity:0.5;margin-bottom:0.5rem}
+.upload-text{font-family:var(--font-serif);font-style:italic;color:var(--white-dim);font-size:0.9rem}
+.upload-preview{max-width:120px;max-height:80px;object-fit:cover;margin-top:0.8rem;border:1px solid var(--border-red);display:none}
+
+/* Items list */
+.admin-items{display:flex;flex-direction:column;gap:0.8rem}
+.admin-item{display:grid;grid-template-columns:50px 1fr auto;gap:1rem;align-items:center;padding:1rem 1.2rem;background:var(--surface);border:1px solid var(--border-white)}
+.admin-item-thumb{width:50px;height:50px;background:var(--black3);border:1px solid var(--border-red);overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:var(--font-impact);font-size:1.2rem;color:var(--red-deep)}
+.admin-item-thumb img{width:100%;height:100%;object-fit:cover}
+.admin-item-info{}
+.admin-item-title{font-family:var(--font-impact);font-size:1rem;letter-spacing:0.04em;color:var(--white)}
+.admin-item-sub{font-size:0.72rem;color:var(--white-dim)}
+.admin-item-actions{display:flex;gap:0.5rem}
+.del-btn{background:none;border:1px solid rgba(192,0,10,0.3);color:var(--red-bright);padding:0.3rem 0.7rem;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:background 0.3s}
+.del-btn:hover{background:var(--red);color:var(--white);border-color:var(--red)}
+.admin-empty{font-family:var(--font-serif);font-style:italic;color:var(--white-dim);padding:1.5rem;text-align:center;border:1px dashed var(--border-white)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:997;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:900px){nav{padding:1.2rem 2rem}.nav-links li:not(:last-child){display:none}section{padding:5rem 2rem}.hero{padding:0 2rem}.about-grid,.contact-grid{grid-template-columns:1fr;gap:3rem}.services-grid,.posts-grid{grid-template-columns:1fr}.fiverr-banner,.insta-cta{grid-template-columns:1fr;gap:1.2rem}.hero-deco{display:none}.embed-grid{grid-template-columns:1fr}.now-playing{grid-template-columns:1fr;gap:1rem}.np-controls{align-items:flex-start;min-width:unset;width:100%}.insta-grid{grid-template-columns:repeat(2,1fr)}footer{flex-direction:column;gap:1rem;text-align:center;padding:1.5rem}.track-duration{display:none}.svc{border-right:none}.a-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ===================== ADMIN PANEL ===================== -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <!-- LOGIN -->
+    <div id="adminLogin">
+      <div style="margin-bottom:2rem"><a href="#" onclick="closeAdmin()" style="color:var(--white-dim);text-decoration:none;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase">&#8592; Back to site</a></div>
+      <div class="admin-login">
+        <div class="admin-login-title">ADMIN <span style="color:var(--red-bright)">PANEL</span></div>
+        <div class="admin-login-sub">Enter your password to manage the site</div>
+        <input class="admin-login-input" type="password" id="adminPwInput" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="admin-login-btn" onclick="doLogin()">Enter</button>
+        <div class="admin-login-err" id="loginErr">Incorrect password. Try again.</div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="adminDash" style="display:none">
+      <div class="admin-header">
+        <div class="admin-title">ADMIN <span>PANEL</span></div>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <span style="font-size:0.7rem;color:var(--white-dim);letter-spacing:0.1em">Logged in as Urvashi</span>
+          <button class="admin-close" onclick="closeAdmin()">Close Panel</button>
+        </div>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchTab('posts',this)">Posts &amp; Updates</button>
+        <button class="admin-tab" onclick="switchTab('tracks',this)">Music Tracks</button>
+        <button class="admin-tab" onclick="switchTab('covers',this)">Release Covers</button>
+        <button class="admin-tab" onclick="switchTab('settings',this)">Site Settings</button>
+      </div>
+
+      <!-- POSTS TAB -->
+      <div id="tab-posts">
+        <div class="admin-form">
+          <div class="admin-form-title">New Post / Update</div>
+          <div><label class="a-label">Post Title</label><input class="a-input" id="postTitle" placeholder="e.g. New single dropping this Friday..."></div>
+          <div><label class="a-label">Message / Content</label><textarea class="a-textarea" id="postText" placeholder="Share an update, announcement, behind-the-scenes..."></textarea></div>
+          <div>
+            <label class="a-label">Cover Image (optional)</label>
+            <div class="upload-area" id="postImgArea">
+              <input type="file" accept="image/*" id="postImgInput" onchange="previewImg(this,'postImgPreview','postImgArea')">
+              <div class="upload-icon">&#128247;</div>
+              <div class="upload-text">Click or drag an image here</div>
+              <img class="upload-preview" id="postImgPreview">
+            </div>
+          </div>
+          <button class="a-btn" onclick="addPost()">Publish Post</button>
+        </div>
+        <div class="admin-items" id="adminPostsList"></div>
+      </div>
+
+      <!-- TRACKS TAB -->
+      <div id="tab-tracks" style="display:none">
+        <div class="admin-form">
+          <div class="admin-form-title">Add New Track</div>
+          <div class="a-row">
+            <div><label class="a-label">Track Title</label><input class="a-input" id="trackTitle" placeholder="e.g. Deadend"></div>
+            <div><label class="a-label">Year</label><input class="a-input" id="trackYear" placeholder="2025"></div>
+          </div>
+          <div class="a-row">
+            <div><label class="a-label">Type / Label</label><input class="a-input" id="trackType" placeholder="e.g. Single · Self-Produced"></div>
+            <div><label class="a-label">Duration (m:ss)</label><input class="a-input" id="trackDur" placeholder="3:34"></div>
+          </div>
+          <div><label class="a-label">Platform / Additional Info</label><input class="a-input" id="trackSub" placeholder="e.g. Amazon Music · feat. Havana"></div>
+          <div>
+            <label class="a-label">Track Cover Art (optional)</label>
+            <div class="upload-area" id="trackImgArea">
+              <input type="file" accept="image/*" id="trackImgInput" onchange="previewImg(this,'trackImgPreview','trackImgArea')">
+              <div class="upload-icon">&#127925;</div>
+              <div class="upload-text">Click or drag cover art here</div>
+              <img class="upload-preview" id="trackImgPreview">
+            </div>
+          </div>
+          <button class="a-btn" onclick="addTrack()">Add Track</button>
+        </div>
+        <div class="admin-items" id="adminTracksList"></div>
+      </div>
+
+      <!-- COVERS TAB -->
+      <div id="tab-covers" style="display:none">
+        <div class="admin-form">
+          <div class="admin-form-title">Upload Release Cover / Artwork</div>
+          <div><label class="a-label">Title / Label for this cover</label><input class="a-input" id="coverTitle" placeholder="e.g. Deadend — Official Artwork"></div>
+          <div>
+            <label class="a-label">Cover Image</label>
+            <div class="upload-area" id="coverImgArea">
+              <input type="file" accept="image/*" id="coverImgInput" onchange="previewImg(this,'coverImgPreview','coverImgArea')">
+              <div class="upload-icon">&#127912;</div>
+              <div class="upload-text">Click or drag artwork here (JPG, PNG, WEBP)</div>
+              <img class="upload-preview" id="coverImgPreview">
+            </div>
+          </div>
+          <button class="a-btn" onclick="addCover()">Upload Cover</button>
+        </div>
+        <div class="admin-items" id="adminCoversList"></div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div id="tab-settings" style="display:none">
+        <div class="admin-form">
+          <div class="admin-form-title">Site Settings</div>
+          <div><label class="a-label">Hero Tagline</label><input class="a-input" id="setTagline" placeholder="she feels what no one can."></div>
+          <div><label class="a-label">About Bio (first paragraph)</label><textarea class="a-textarea" id="setBio" placeholder="Update your bio text..."></textarea></div>
+          <div class="a-row">
+            <div><label class="a-label">YouTube Subscribers</label><input class="a-input" id="setYT" placeholder="8K+"></div>
+            <div><label class="a-label">Instagram Followers</label><input class="a-input" id="setIG" placeholder="7K+"></div>
+          </div>
+          <div><label class="a-label">Formspree Form ID (for contact form)</label><input class="a-input" id="setFormspree" placeholder="YOUR_FORM_ID"></div>
+          <div style="display:flex;gap:1rem">
+            <button class="a-btn" onclick="saveSettings()">Save Settings</button>
+            <button class="a-btn secondary" onclick="loadSettingsIntoForm()">Reset to Saved</button>
+          </div>
+          <div id="settingsSaved" style="display:none;color:#5dbe5d;font-family:var(--font-serif);font-style:italic;font-size:0.9rem">&#10003; Settings saved successfully.</div>
+        </div>
+        <div class="admin-form" style="margin-top:0">
+          <div class="admin-form-title" style="color:var(--red-bright)">Change Password</div>
+          <div class="a-row">
+            <div><label class="a-label">Current Password</label><input class="a-input" type="password" id="pwCurrent" placeholder="current password"></div>
+            <div><label class="a-label">New Password</label><input class="a-input" type="password" id="pwNew" placeholder="new password"></div>
+          </div>
+          <button class="a-btn" onclick="changePassword()">Update Password</button>
+          <div id="pwMsg" style="display:none;font-family:var(--font-serif);font-style:italic;font-size:0.9rem"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SITE ===================== -->
+<nav>
+  <a href="#" class="nav-logo">URVASHI<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#music">Music</a></li>
+    <li><a href="#updates">Updates</a></li>
+    <li><a href="#instagram">Instagram</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" class="admin-nav-btn" onclick="openAdmin(event)">&#9998; Admin</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-slash"></div>
+  <div class="hero-deco">SAANA</div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Singer &mdash; Songwriter &mdash; Vocalist</p>
+    <h1 class="hero-name">URVASHI<br><span class="red">SAANA</span></h1>
+    <span class="hero-italic" id="heroTagline">she feels what no one can.</span>
+    <p class="hero-tagline">From the silence of <strong>Jammu &amp; Kashmir</strong> &mdash; to the hearts of the world. Indie-pop. Electronic. Cinematic.</p>
+    <div class="hero-ctas">
+      <a href="#music" class="btn-red">Listen Now</a>
+      <a href="#services" class="btn-outline">Work With Me</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-bar"><div class="marquee-track"><span>Deadend</span><span class="dot"> &#9670; </span><span>Avec Moi</span><span class="dot"> &#9670; </span><span>Someone Else's Love</span><span class="dot"> &#9670; </span><span>Dive &amp; Drown in Him</span><span class="dot"> &#9670; </span><span>Jammu &amp; Kashmir</span><span class="dot"> &#9670; </span><span>World Wide Music</span><span class="dot"> &#9670; </span><span>5 Stars</span><span class="dot"> &#9670; </span><span>Deadend</span><span class="dot"> &#9670; </span><span>Avec Moi</span><span class="dot"> &#9670; </span><span>Someone Else's Love</span><span class="dot"> &#9670; </span><span>Dive &amp; Drown in Him</span><span class="dot"> &#9670; </span><span>Jammu &amp; Kashmir</span><span class="dot"> &#9670; </span><span>World Wide Music</span><span class="dot"> &#9670; </span><span>5 Stars</span><span class="dot"> &#9670; </span></div></div>
+
+<section id="about" class="about-section">
+  <div class="section-inner">
+    <div class="sec-tag reveal">About Urvashi</div>
+    <h2 class="sec-heading reveal">THE VOICE<br><span class="red">BEHIND</span><br><span class="outline">THE SOUND</span></h2>
+    <div class="about-grid">
+      <div>
+        <p class="about-text reveal" id="aboutBio">Urvashi Saana is an <strong>Indian singer-songwriter and digital music creator</strong> born from the valleys of <span class="hl">Jammu &amp; Kashmir</span> &mdash; where every lyric carries the weight of mountains and the hush of snow-quiet mornings.</p>
+        <div class="about-divider reveal"></div>
+        <p class="about-text reveal">Her music lives at the edge of <strong>indie-pop, electronic, and cinematic</strong> &mdash; shifting between soulful ballads and upbeat electronic tracks without ever losing her identity. Since 2021, she has collaborated across borders and earned a <strong>consistent 5-star record</strong> that speaks louder than any bio.</p>
+        <p class="about-text reveal" style="margin-top:1.5rem">She thinks and feels what <span class="hl">no one else can.</span> That is her voice. That is her art.</p>
+        <div class="stat-grid reveal">
+          <div class="stat-item"><div class="stat-num" id="statYT">8K+</div><div class="stat-label">YouTube</div></div>
+          <div class="stat-item"><div class="stat-num" id="statIG">7K+</div><div class="stat-label">Instagram</div></div>
+          <div class="stat-item"><div class="stat-num">5&#9733;</div><div class="stat-label">Fiverr Rating</div></div>
+          <div class="stat-item"><div class="stat-num">2021</div><div class="stat-label">Active Since</div></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="detail-list">
+          <div class="detail-row"><div class="detail-key">Origin</div><div class="detail-val">Jammu &amp; Kashmir, India</div></div>
+          <div class="detail-row"><div class="detail-key">Genre</div><div class="detail-val">Indie-Pop &middot; Electronic &middot; Cinematic</div></div>
+          <div class="detail-row"><div class="detail-key">Active</div><div class="detail-val">2021 &ndash; Present</div></div>
+          <div class="detail-row"><div class="detail-key">Instagram</div><div class="detail-val"><a href="https://instagram.com/urvashi_saana" target="_blank">@urvashi_saana</a></div></div>
+          <div class="detail-row"><div class="detail-key">Platforms</div><div class="detail-val">SoundCloud &middot; YouTube &middot; Amazon Music</div></div>
+          <div class="detail-row"><div class="detail-key">Label</div><div class="detail-val">Independent &middot; World Wide Music</div></div>
+          <div class="detail-row"><div class="detail-key">Collaborators</div><div class="detail-val">Havana (Romania) &middot; Global Artists</div></div>
+          <div class="detail-row"><div class="detail-key">Commissions</div><div class="detail-val"><a href="https://www.fiverr.com" target="_blank">Open via Fiverr &#8599;</a></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="music" class="music-section">
+  <div class="section-inner">
+    <div class="sec-tag reveal">Discography</div>
+    <h2 class="sec-heading reveal">MUSIC &amp;<br><span class="red">RELEASES</span></h2>
+    <div style="margin-top:3rem">
+      <div class="now-playing">
+        <div class="np-art" id="npArt"><div class="np-art-letter" id="npLetter">D</div></div>
+        <div>
+          <div class="np-label">Now Playing</div>
+          <div class="np-title" id="npTitle">DEADEND</div>
+          <div class="np-sub" id="npSub">2025 &middot; Self-Produced</div>
+        </div>
+        <div class="np-controls">
+          <div class="controls-row">
+            <button class="ctrl-btn" id="prevBtn">&#9664;&#9664;</button>
+            <button class="ctrl-btn play-btn" id="playBtn">&#9654;</button>
+            <button class="ctrl-btn" id="nextBtn">&#9654;&#9654;</button>
+            <div class="visualizer" id="viz"><div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div></div>
+          </div>
+          <div class="progress-wrap">
+            <div class="prog-container" id="progBar"><div class="prog-fill" id="progFill"></div><div class="prog-thumb" id="progThumb"></div></div>
+            <div class="time-row"><span id="curTime">0:00</span><span id="totTime">3:34</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="track-list" id="trackList"></div>
+      <div class="embed-heading">Stream on Platforms</div>
+      <div class="embed-grid">
+        <div class="embed-card"><div class="embed-label">SoundCloud &middot; Urvashi Saana</div><iframe height="166" scrolling="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/urvashi-saana&color=%23c0000a&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true"></iframe></div>
+        <div class="embed-card"><div class="embed-label">YouTube &middot; Latest Video</div><iframe height="166" src="https://www.youtube.com/embed?listType=user_uploads&list=UrvashiSaana&rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="updates" class="updates-section">
+  <div class="section-inner">
+    <div class="sec-tag reveal">Latest from Urvashi</div>
+    <h2 class="sec-heading reveal">POSTS &amp;<br><span class="red">UPDATES</span></h2>
+    <div class="posts-grid reveal" id="postsGrid"></div>
+  </div>
+</section>
+
+<section id="instagram" class="instagram-section">
+  <div class="section-inner">
+    <div class="sec-tag reveal">@urvashi_saana</div>
+    <h2 class="sec-heading reveal">INSTAGRAM<br><span class="red">FEED</span></h2>
+    <div class="insta-grid reveal">
+      <div class="insta-item" onclick="window.open('https://instagram.com/urvashi_saana','_blank')"><div class="insta-placeholder"><div class="insta-icon">&#128247;</div><div class="insta-text">Songwriting &amp; acoustic sessions</div></div><div class="insta-overlay"><div class="insta-overlay-text">View on Instagram</div><div style="font-size:1.4rem;color:white">&#8599;</div></div></div>
+      <div class="insta-item" onclick="window.open('https://instagram.com/urvashi_saana','_blank')"><div class="insta-placeholder"><div class="insta-icon">&#127925;</div><div class="insta-text">Studio sessions &amp; BTS</div></div><div class="insta-overlay"><div class="insta-overlay-text">View on Instagram</div><div style="font-size:1.4rem;color:white">&#8599;</div></div></div>
+      <div class="insta-item" onclick="window.open('https://instagram.com/urvashi_saana','_blank')"><div class="insta-placeholder"><div class="insta-icon">&#127908;</div><div class="insta-text">Live performances &amp; covers</div></div><div class="insta-overlay"><div class="insta-overlay-text">View on Instagram</div><div style="font-size:1.4rem;color:white">&#8599;</div></div></div>
+      <div class="insta-item" onclick="window.open('https://instagram.com/urvashi_saana','_blank')"><div class="insta-placeholder"><div class="insta-icon">&#127956;</div><div class="insta-text">Life from J&amp;K</div></div><div class="insta-overlay"><div class="insta-overlay-text">View on Instagram</div><div style="font-size:1.4rem;color:white">&#8599;</div></div></div>
+      <div class="insta-item" onclick="window.open('https://instagram.com/urvashi_saana','_blank')"><div class="insta-placeholder"><div class="insta-icon">&#9997;</div><div class="insta-text">Lyrics &amp; poetry</div></div><div class="insta-overlay"><div class="insta-overlay-text">View on Instagram</div><div style="font-size:1.4rem;color:white">&#8599;</div></div></div>
+      <div class="insta-item" onclick="window.open('https://instagram.com/urvashi_saana','_blank')"><div class="insta-placeholder"><div class="insta-icon">&#127757;</div><div class="insta-text">Collabs &amp; new releases</div></div><div class="insta-overlay"><div class="insta-overlay-text">View on Instagram</div><div style="font-size:1.4rem;color:white">&#8599;</div></div></div>
+    </div>
+    <div class="insta-cta reveal"><div class="insta-cta-text">Follow for <strong>reels, acoustic sessions</strong> &amp; new music drops</div><a href="https://instagram.com/urvashi_saana" target="_blank" class="insta-follow-btn">Follow @urvashi_saana &#8599;</a></div>
+  </div>
+</section>
+
+<section id="services" class="commercials-section">
+  <div class="section-inner">
+    <div class="sec-tag reveal">Commercials &amp; Services</div>
+    <h2 class="sec-heading reveal">WHAT I<br><span class="red">CREATE</span></h2>
+    <div style="margin-top:4rem">
+      <div class="services-grid reveal">
+        <div class="svc" data-num="01"><div class="svc-icon">&#9835;</div><div class="svc-title">Original Compositions</div><p class="svc-desc">Custom-written, fully produced original songs tailored to your vision &mdash; concept to final delivery.</p></div>
+        <div class="svc" data-num="02"><div class="svc-icon">&#9836;</div><div class="svc-title">Commercial Jingles</div><p class="svc-desc">Catchy, memorable jingles for brands and digital campaigns &mdash; with professional studio polish.</p></div>
+        <div class="svc" data-num="03"><div class="svc-icon">&#127897;</div><div class="svc-title">Voiceovers</div><p class="svc-desc">Warm, expressive vocal deliveries for trailers, explainers, ads, and media content worldwide.</p></div>
+        <div class="svc" data-num="04"><div class="svc-icon">&#127908;</div><div class="svc-title">Vocal Features</div><p class="svc-desc">Top-line vocals and harmonies for producers seeking a distinctive, emotive voice on their track.</p></div>
+        <div class="svc" data-num="05"><div class="svc-icon">&#12316;</div><div class="svc-title">Atmospheric Covers</div><p class="svc-desc">Reimagined takes on popular or classic songs &mdash; cinematic, introspective, unmistakably Urvashi.</p></div>
+        <div class="svc" data-num="06"><div class="svc-icon">&#9738;</div><div class="svc-title">Remote Collaboration</div><p class="svc-desc">Seamless global remote sessions with producers and directors. 5-star rated. Always on time.</p></div>
+      </div>
+      <div class="fiverr-banner reveal"><div><p class="fiverr-text"><strong>Commissions are open.</strong><br>Book your project &mdash; 5 stars, every delivery, no exceptions.</p></div><a href="https://www.fiverr.com" target="_blank" class="btn-white">Hire on Fiverr</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="section-inner">
+    <div class="sec-tag reveal">Get in Touch</div>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-statement reveal">LET'S MAKE<br><span class="red">SOMETHING</span><span class="outline">REAL.</span></div>
+        <p class="contact-body reveal">Whether you're a label, a producer, a brand, or someone who simply feels the music &mdash; Urvashi is open to collaborations that mean something.</p>
+        <div class="socials reveal">
+          <a href="https://instagram.com/urvashi_saana" target="_blank" class="soc-link"><span class="soc-name">Instagram</span><span class="soc-handle">@urvashi_saana</span><span class="soc-arrow">&#8599;</span></a>
+          <a href="https://youtube.com/@UrvashiSaana" target="_blank" class="soc-link"><span class="soc-name">YouTube</span><span class="soc-handle">Urvashi Saana</span><span class="soc-arrow">&#8599;</span></a>
+          <a href="https://soundcloud.com/urvashi-saana" target="_blank" class="soc-link"><span class="soc-name">SoundCloud</span><span class="soc-handle">Urvashi Saana</span><span class="soc-arrow">&#8599;</span></a>
+          <a href="https://www.fiverr.com" target="_blank" class="soc-link"><span class="soc-name">Fiverr</span><span class="soc-handle">Commissions Open</span><span class="soc-arrow">&#8599;</span></a>
+          <a href="https://music.amazon.com" target="_blank" class="soc-link"><span class="soc-name">Amazon Music</span><span class="soc-handle">Stream Deadend</span><span class="soc-arrow">&#8599;</span></a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="form-note">This form sends to Urvashi's inbox via <a href="https://formspree.io" target="_blank">Formspree</a>. Set your Form ID in Admin &rarr; Settings to activate it.</div>
+        <form class="form-wrap" id="contactForm">
+          <div><label class="f-label" for="fname">Your Name</label><input class="f-input" id="fname" name="name" type="text" placeholder="e.g. Alex Reeves" required></div>
+          <div><label class="f-label" for="femail">Email</label><input class="f-input" id="femail" name="email" type="email" placeholder="you@example.com" required></div>
+          <div><label class="f-label" for="ftype">Project Type</label>
+            <select class="f-select f-input" id="ftype" name="project_type">
+              <option value="" disabled selected>Select a service...</option>
+              <option>Original Composition</option><option>Commercial Jingle</option><option>Voiceover</option><option>Vocal Feature / Collaboration</option><option>Atmospheric Cover</option><option>Remote Session</option><option>Other</option>
+            </select>
+          </div>
+          <div><label class="f-label" for="fmsg">Message</label><textarea class="f-textarea" id="fmsg" name="message" placeholder="Tell me about your vision..." required></textarea></div>
+          <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+          <div class="form-status" id="formStatus"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">URVASHI<span>.</span>SAANA</div>
+  <div class="footer-tagline">"she feels what no one can."</div>
+  <div class="footer-copy">&copy; 2025 Urvashi Saana &middot; Jammu &amp; Kashmir, India</div>
+</footer>
+
+<script>
+// ===================== STORAGE =====================
+const DB={
+  get(k){try{const r=localStorage.getItem('us_'+k);return r?JSON.parse(r):null}catch{return null}},
+  set(k,v){try{localStorage.setItem('us_'+k,JSON.stringify(v))}catch{}},
+};
+
+// ===================== STATE =====================
+const DEFAULT_TRACKS=[
+  {id:'t0',letter:'D',title:'DEADEND',year:'2025',type:'Single',sub:'Self-Produced · Amazon Music',dur:'3:34',durSec:214,img:null},
+  {id:'t1',letter:'A',title:'AVEC MOI',year:'2025',type:'Collab',sub:'feat. Havana · World Wide Music',dur:'3:18',durSec:198,img:null},
+  {id:'t2',letter:'S',title:"SOMEONE ELSE'S LOVE",year:'2023',type:'Single',sub:'SoundCloud · Indie-Pop',dur:'3:03',durSec:183,img:null},
+  {id:'t3',letter:'\u2652',title:'DIVE & DROWN IN HIM',year:'2022',type:'Single',sub:'SoundCloud · Electronic',dur:'3:21',durSec:201,img:null},
+];
+let tracks=DB.get('tracks')||DEFAULT_TRACKS;
+let posts=DB.get('posts')||[];
+let covers=DB.get('covers')||[];
+let settings=DB.get('settings')||{tagline:'she feels what no one can.',bio:'',yt:'8K+',ig:'7K+',formspree:''};
+let adminPw=DB.get('adminPw')||'urvashi2025';
+let loggedIn=false;
+
+// ===================== CURSOR =====================
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+(function ar(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar)})();
+document.querySelectorAll('a,button,.svc,.track-item,.insta-item,.admin-tab,.del-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.width='56px';ring.style.height='56px';ring.style.borderColor='var(--red-bright)'});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(192,0,10,0.5)'});
+});
+
+// ===================== REVEAL =====================
+const obs=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target)}})},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ===================== MUSIC PLAYER =====================
+let cidx=0,playing=false,prog=0,pInt=null,vInt=null;
+const playBtn=document.getElementById('playBtn');
+const vizBars=document.querySelectorAll('.viz-bar');
+function fmt(s){return Math.floor(s/60)+':'+(Math.floor(s%60)+'').padStart(2,'0')}
+function durToSec(d){if(!d)return 200;const p=d.split(':');return parseInt(p[0])*60+parseInt(p[1]||0)}
+
+function renderTrackList(){
+  const tl=document.getElementById('trackList');
+  tl.innerHTML='';
+  tracks.forEach((t,i)=>{
+    const div=document.createElement('div');
+    div.className='track-item'+(i===cidx?' active':'');
+    div.dataset.idx=i;
+    div.innerHTML=`
+      <div class="track-art">${t.img?`<img src="${t.img}">`:`<span>${t.letter||t.title[0]}</span>`}</div>
+      <div class="track-play-icon">&#9654;</div>
+      <div>
+        <div class="track-year">${t.year} &middot; ${t.type}</div>
+        <div class="track-name">${t.title}</div>
+        <div class="track-sub">${t.sub}</div>
+      </div>
+      <div class="track-duration">${t.dur||'—'}</div>
+      <div class="track-bar" id="bar${i}"></div>`;
+    div.addEventListener('click',()=>{pause();setTrack(i);play()});
+    tl.appendChild(div);
+  });
+}
+
+function setTrack(i){
+  if(!tracks.length)return;
+  cidx=i%tracks.length;
+  const t=tracks[cidx];
+  const npArt=document.getElementById('npArt');
+  npArt.innerHTML=t.img?`<img src="${t.img}">`:`<div class="np-art-letter">${t.letter||t.title[0]}</div>`;
+  document.getElementById('npTitle').textContent=t.title;
+  document.getElementById('npSub').textContent=`${t.year} \u00b7 ${t.sub}`;
+  document.getElementById('totTime').textContent=t.dur||'—';
+  prog=0;updProg();
+  document.querySelectorAll('.track-item').forEach((el,j)=>el.classList.toggle('active',j===cidx));
+}
+function updProg(){
+  const dur=durToSec(tracks[cidx]?.dur)||200;
+  const pct=prog/dur*100;
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progThumb').style.left=pct+'%';
+  document.getElementById('curTime').textContent=fmt(prog);
+  tracks.forEach((_,i)=>{const b=document.getElementById('bar'+i);if(b)b.style.width=(i===cidx?pct:0)+'%'});
+}
+function startViz(){vInt=setInterval(()=>{vizBars.forEach(b=>{b.style.height=(Math.random()*13+3)+'px'})},110)}
+function stopViz(){clearInterval(vInt);vizBars.forEach(b=>{b.style.height='3px'})}
+function play(){if(!tracks.length)return;playing=true;playBtn.innerHTML='&#9646;&#9646;';pInt=setInterval(()=>{const dur=durToSec(tracks[cidx]?.dur)||200;prog=Math.min(prog+1,dur);updProg();if(prog>=dur){pause();setTrack((cidx+1)%tracks.length);play()}},1000);startViz()}
+function pause(){playing=false;playBtn.innerHTML='&#9654;';clearInterval(pInt);stopViz()}
+playBtn.addEventListener('click',()=>playing?pause():play());
+document.getElementById('nextBtn').addEventListener('click',()=>{pause();setTrack((cidx+1)%tracks.length);play()});
+document.getElementById('prevBtn').addEventListener('click',()=>{pause();setTrack((cidx-1+tracks.length)%tracks.length);play()});
+document.getElementById('progBar').addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect();prog=Math.floor((e.clientX-r.left)/r.width*(durToSec(tracks[cidx]?.dur)||200));updProg()});
+
+// ===================== POSTS =====================
+function renderPosts(){
+  const g=document.getElementById('postsGrid');
+  if(!posts.length){
+    g.innerHTML=`<div class="empty-state"><div class="empty-state-text">No posts yet.</div><div class="empty-state-sub">Go to Admin Panel to publish your first update.</div></div>`;
+    return;
+  }
+  g.innerHTML=posts.map((p,i)=>`
+    <div class="post-card">
+      ${p.img?`<img class="post-cover" src="${p.img}" alt="${p.title}">`:`<div class="post-cover-placeholder"><div class="post-cover-glyph">${p.title[0]}</div></div>`}
+      <div class="post-body">
+        <div class="post-date">${p.date}</div>
+        <div class="post-title">${p.title}</div>
+        <div class="post-text">${p.text}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ===================== ADMIN OPEN/CLOSE =====================
+function openAdmin(e){if(e)e.preventDefault();document.getElementById('adminOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open');document.body.style.overflow=''}
+document.getElementById('adminOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('adminOverlay'))closeAdmin()});
+
+function doLogin(){
+  const val=document.getElementById('adminPwInput').value;
+  if(val===adminPw){
+    loggedIn=true;
+    document.getElementById('adminLogin').style.display='none';
+    document.getElementById('adminDash').style.display='block';
+    renderAdminPosts();renderAdminTracks();renderAdminCovers();loadSettingsIntoForm();
+    document.getElementById('adminPwInput').value='';
+  } else {
+    document.getElementById('loginErr').style.display='block';
+    setTimeout(()=>document.getElementById('loginErr').style.display='none',2500);
+  }
+}
+
+function switchTab(name,btn){
+  ['posts','tracks','covers','settings'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display=t===name?'block':'none';
+  });
+  document.querySelectorAll('.admin-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===================== IMAGE PREVIEW =====================
+function previewImg(input,previewId,areaId){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const img=document.getElementById(previewId);
+    img.src=e.target.result;img.style.display='block';
+  };
+  r.readAsDataURL(f);
+}
+function getImgData(inputId){
+  return new Promise(res=>{
+    const f=document.getElementById(inputId).files[0];
+    if(!f){res(null);return}
+    const r=new FileReader();
+    r.onload=e=>res(e.target.result);
+    r.readAsDataURL(f);
+  });
+}
+
+// ===================== ADD POST =====================
+async function addPost(){
+  const title=document.getElementById('postTitle').value.trim();
+  const text=document.getElementById('postText').value.trim();
+  if(!title||!text){alert('Please fill in the title and message.');return}
+  const img=await getImgData('postImgInput');
+  const post={id:'p'+Date.now(),title,text,img,date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})};
+  posts.unshift(post);
+  DB.set('posts',posts);
+  renderPosts();renderAdminPosts();
+  document.getElementById('postTitle').value='';
+  document.getElementById('postText').value='';
+  document.getElementById('postImgInput').value='';
+  document.getElementById('postImgPreview').style.display='none';
+  alert('Post published!');
+}
+function renderAdminPosts(){
+  const el=document.getElementById('adminPostsList');
+  if(!posts.length){el.innerHTML=`<div class="admin-empty">No posts yet. Add one above.</div>`;return}
+  el.innerHTML=posts.map(p=>`
+    <div class="admin-item">
+      <div class="admin-item-thumb">${p.img?`<img src="${p.img}">`:`${p.title[0]}`}</div>
+      <div class="admin-item-info"><div class="admin-item-title">${p.title}</div><div class="admin-item-sub">${p.date}</div></div>
+      <div class="admin-item-actions"><button class="del-btn" onclick="deletePost('${p.id}')">Delete</button></div>
+    </div>`).join('');
+}
+function deletePost(id){
+  if(!confirm('Delete this post?'))return;
+  posts=posts.filter(p=>p.id!==id);DB.set('posts',posts);renderPosts();renderAdminPosts();
+}
+
+// ===================== ADD TRACK =====================
+async function addTrack(){
+  const title=document.getElementById('trackTitle').value.trim().toUpperCase();
+  const year=document.getElementById('trackYear').value.trim();
+  const type=document.getElementById('trackType').value.trim();
+  const dur=document.getElementById('trackDur').value.trim();
+  const sub=document.getElementById('trackSub').value.trim();
+  if(!title){alert('Please enter a track title.');return}
+  const img=await getImgData('trackImgInput');
+  const t={id:'tr'+Date.now(),letter:title[0],title,year,type:type||'Single',sub:sub||'',dur:dur||'—',durSec:durToSec(dur),img};
+  tracks.push(t);DB.set('tracks',tracks);
+  renderTrackList();setTrack(cidx);renderAdminTracks();
+  ['trackTitle','trackYear','trackType','trackDur','trackSub'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('trackImgInput').value='';
+  document.getElementById('trackImgPreview').style.display='none';
+  alert('Track added!');
+}
+function renderAdminTracks(){
+  const el=document.getElementById('adminTracksList');
+  if(!tracks.length){el.innerHTML=`<div class="admin-empty">No tracks yet.</div>`;return}
+  el.innerHTML=tracks.map(t=>`
+    <div class="admin-item">
+      <div class="admin-item-thumb">${t.img?`<img src="${t.img}">`:`${t.letter||t.title[0]}`}</div>
+      <div class="admin-item-info"><div class="admin-item-title">${t.title}</div><div class="admin-item-sub">${t.year} &middot; ${t.dur}</div></div>
+      <div class="admin-item-actions"><button class="del-btn" onclick="deleteTrack('${t.id}')">Delete</button></div>
+    </div>`).join('');
+}
+function deleteTrack(id){
+  if(!confirm('Remove this track?'))return;
+  tracks=tracks.filter(t=>t.id!==id);DB.set('tracks',tracks);
+  cidx=0;renderTrackList();if(tracks.length)setTrack(0);renderAdminTracks();
+}
+
+// ===================== ADD COVER =====================
+async function addCover(){
+  const title=document.getElementById('coverTitle').value.trim();
+  if(!title){alert('Please enter a title for this cover.');return}
+  const img=await getImgData('coverImgInput');
+  if(!img){alert('Please select an image.');return}
+  const c={id:'c'+Date.now(),title,img,date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})};
+  covers.unshift(c);DB.set('covers',covers);renderAdminCovers();
+  document.getElementById('coverTitle').value='';
+  document.getElementById('coverImgInput').value='';
+  document.getElementById('coverImgPreview').style.display='none';
+  alert('Cover uploaded!');
+}
+function renderAdminCovers(){
+  const el=document.getElementById('adminCoversList');
+  if(!covers.length){el.innerHTML=`<div class="admin-empty">No covers uploaded yet.</div>`;return}
+  el.innerHTML=covers.map(c=>`
+    <div class="admin-item">
+      <div class="admin-item-thumb"><img src="${c.img}"></div>
+      <div class="admin-item-info"><div class="admin-item-title">${c.title}</div><div class="admin-item-sub">${c.date}</div></div>
+      <div class="admin-item-actions"><button class="del-btn" onclick="deleteCover('${c.id}')">Delete</button></div>
+    </div>`).join('');
+}
+function deleteCover(id){
+  if(!confirm('Delete this cover?'))return;
+  covers=covers.filter(c=>c.id!==id);DB.set('covers',covers);renderAdminCovers();
+}
+
+// ===================== SETTINGS =====================
+function loadSettingsIntoForm(){
+  document.getElementById('setTagline').value=settings.tagline||'';
+  document.getElementById('setBio').value=settings.bio||'';
+  document.getElementById('setYT').value=settings.yt||'';
+  document.getElementById('setIG').value=settings.ig||'';
+  document.getElementById('setFormspree').value=settings.formspree||'';
+}
+function saveSettings(){
+  settings.tagline=document.getElementById('setTagline').value.trim()||settings.tagline;
+  settings.bio=document.getElementById('setBio').value.trim();
+  settings.yt=document.getElementById('setYT').value.trim()||settings.yt;
+  settings.ig=document.getElementById('setIG').value.trim()||settings.ig;
+  settings.formspree=document.getElementById('setFormspree').value.trim();
+  DB.set('settings',settings);
+  applySettings();
+  document.getElementById('settingsSaved').style.display='block';
+  setTimeout(()=>document.getElementById('settingsSaved').style.display='none',2500);
+}
+function applySettings(){
+  if(settings.tagline)document.getElementById('heroTagline').textContent=settings.tagline;
+  if(settings.yt)document.getElementById('statYT').textContent=settings.yt;
+  if(settings.ig)document.getElementById('statIG').textContent=settings.ig;
+}
+function changePassword(){
+  const cur=document.getElementById('pwCurrent').value;
+  const nw=document.getElementById('pwNew').value;
+  const msg=document.getElementById('pwMsg');
+  if(cur!==adminPw){msg.style.display='block';msg.style.color='var(--red-bright)';msg.textContent='Current password incorrect.';return}
+  if(!nw||nw.length<6){msg.style.display='block';msg.style.color='var(--red-bright)';msg.textContent='New password must be at least 6 characters.';return}
+  adminPw=nw;DB.set('adminPw',adminPw);
+  msg.style.display='block';msg.style.color='#5dbe5d';msg.textContent='Password updated successfully.';
+  document.getElementById('pwCurrent').value='';document.getElementById('pwNew').value='';
+  setTimeout(()=>msg.style.display='none',3000);
+}
+
+// ===================== CONTACT FORM =====================
+const cForm=document.getElementById('contactForm');
+const submitBtn=document.getElementById('submitBtn');
+const formStatus=document.getElementById('formStatus');
+cForm.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const fid=settings.formspree;
+  if(!fid){
+    formStatus.className='form-status error';
+    formStatus.textContent='Contact form not active yet. Set your Formspree ID in Admin \u2192 Settings.';
+    return;
+  }
+  submitBtn.textContent='Sending...';submitBtn.disabled=true;
+  try{
+    const res=await fetch(`https://formspree.io/f/${fid}`,{method:'POST',body:new FormData(cForm),headers:{Accept:'application/json'}});
+    if(res.ok){submitBtn.textContent='Sent \u2713';submitBtn.classList.add('success');formStatus.className='form-status success';formStatus.textContent='Message sent! Urvashi will get back to you soon.';cForm.reset()}
+    else throw new Error();
+  }catch{submitBtn.textContent='Send Message';submitBtn.disabled=false;formStatus.className='form-status error';formStatus.textContent='Something went wrong. Try again or reach out via Instagram.'}
+});
+
+// ===================== INIT =====================
+renderTrackList();
+if(tracks.length)setTrack(0);
+renderPosts();
+applySettings();
+</script>
+</body>
+</html>
